@@ -1,17 +1,14 @@
-const express = require('express');
-const app = express();
-const port = 3000;
+const app = require("./src/index");
+const { cEnv } = require("./src/consts/env.const");
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.listen(port, (err) => {
-    if (err) {
-        return console.log('Something bad happened', err);
-    }
-    console.log(`Server is listening on ${port}`);
-});
-
-
+// Only bind the port when run directly (node app.js), not when imported by tests.
+if (require.main === module) {
+    app.listen(cEnv.PORT, (err) => {
+        if (err) {
+            return console.log("Something bad happened", err);
+        }
+        console.log(`Server is listening on ${cEnv.PORT}`);
+    });
+}
 
 module.exports = app;
